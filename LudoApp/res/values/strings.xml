@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Mensch ärger dich nicht</string>
+    <string name="action_settings">Settings</string>
+    
+     <string name="title">Mensch ärger dich nicht </string>
+     <string name="Neues_Spiel">Neues Spiel</string>    
+     <string name="Spiel_fortsetzen">Spiel fortsetzen</string>
+     <string name="Beenden">Beenden</string>
+     <string name="buttonLogin">Login</string>
+     <string name="buttonRegistration">Registrieren</string>
+     
+     <!-- Strings für neues Spiel -->
+       	<string name="neuesspiel">Anzahl Spieler</string>
+       	<string name="auswahl_anzahl">Bitte wählen Sie die Anzahl der Spieler</string>
+       	<string name="Spieler1">Name Spieler 1</string>
+       	<string name="Spieler2">Name Spieler 2</string>
+       	<string name="Spieler3">Name Spieler 3</string>
+       	<string name="Spieler4">Name Spieler 4</string>
+ 		<string name="los">Los gehts!</string>
+ 		   <string name="hintTxtItem">Enter an item here ...</string>
+    <string name="lblBtnAdd">Add Item</string>
+    <string name="txtEmpty">List is empty</string>
+ 		<!-- Spiel -->
+ 		<string name="spiel">Spiel</string>
+ 		<string name="Wuerfel">würfeln</string>
+</resources>
