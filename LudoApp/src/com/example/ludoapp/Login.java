@@ -25,7 +25,6 @@ private EditText Username;
 
 ILudoWebservice service; 
 sayhellotask hellotask;
-getLogintask logintask;
 ILudoWebservice service2; 
 
 	@Override
@@ -37,10 +36,9 @@ ILudoWebservice service2;
 		
 
 		service = new LudoWebserviceStub();
-		logintask = new getLogintask();
 		
-		service2 =  new LudoWebserviceStub();
 		hellotask = new sayhellotask();
+		
 		hellotask.execute("");
 		zurueck.setOnClickListener(new OnClickListener(){
 				@Override
@@ -57,7 +55,6 @@ ILudoWebservice service2;
 				public void onClick(View v) {
 					
 
-					logintask.execute();
 					//Intent nextScreen = new Intent(getApplicationContext(), Userscreen.class);
 					//nextScreen.putExtra("Username", Username.getText().toString());
 					//startActivity(nextScreen);
@@ -97,24 +94,7 @@ ILudoWebservice service2;
 	}
 	
 	
-	class getLogintask extends AsyncTask<String, Integer, String>{
 
-		@Override
-		protected void onPostExecute(String result) {
-			EditText tv = (EditText)findViewById(R.id.editTextBenutzername);
-			tv.setText(result);
-			
-		}
-
-		@Override
-		protected String doInBackground(String... params) {
-			String result = service2.getLoginDaten("Test","test2");
-			
-			return result.toString();
-			}
-			
-	}
-	
 	
 
 }

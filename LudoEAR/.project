@@ -3,8 +3,8 @@
 	<name>LudoEAR</name>
 	<comment></comment>
 	<projects>
+		<project>LudoSystem</project>
 		<project>LudoPersistenceManagement</project>
-		<project>LudoApp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
