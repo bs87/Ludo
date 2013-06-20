@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.example.LudoEntities.User;
+import com.example.LudoEntities.Game;
 
 /**
  * Session Bean implementation class XbankDAO
@@ -38,17 +39,11 @@ public class LudoDAO implements LudoDAOLocal {
 
 	@Override
 	public void closeSession(int id) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
+	}		
+	
+	@Override
+	public Game findGameById(int gameId){
+		return em.find(Game.class, gameId);
 	}
-
-	
-
-
-
-
-
-
-	
-	
 }
