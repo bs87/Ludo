@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.jws.WebService;
 import com.example.LudoEntities.User;
 import com.example.LudoDao.LudoDAOLocal;
+import com.example.SystemResponse.LoginResponse;
 
 
 
@@ -47,5 +48,18 @@ public  class LudoOnlineIntegrationImpl implements LudoOnlineIntegration {
 		String antwort = "Username: " +Username +" passwort: "+  Passwort;
 		return antwort;
 	}
-
+	
+	public LoginResponse login(String username, String password){
+		LoginResponse response = new LoginResponse();
+		
+		User user = this.dao.findUserByName(username);		
+		if (user != null && user.getPassword().equals(password)) {
+			int sessionId = dao.createSession(user.getUserId());
+			System.out.println("Login erfolgreich. Session=" + sessionId);
+			response.setSessionId(sessionId);
+		}
+		
+		return response;
+	}
+	
 }

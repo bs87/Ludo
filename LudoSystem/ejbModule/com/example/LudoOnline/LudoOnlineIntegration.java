@@ -2,9 +2,7 @@ package com.example.LudoOnline;
 
 import java.math.BigDecimal;
 
-
-
-
+import com.example.SystemResponse.LoginResponse;
 
 /**
  * Dieses Business Interface definiert die Schnittstelle zum OnlinebankingSystem der Xbank.
@@ -19,6 +17,8 @@ public interface LudoOnlineIntegration {
 	public String sayhello();
 
 	public String checklogin(String Username, String Passwort);
+	
+	public LoginResponse login(String username, String password);
 	
 	
 	
