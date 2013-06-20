@@ -20,7 +20,7 @@
             android:name="com.example.ludoapp.Startscreen"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
-            android:screenOrientation="landscape" >
+           >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +31,7 @@
             android:name="com.example.ludoapp.neuesspiel"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/neuesspiel"
-            android:screenOrientation="landscape" >
+            >
         </activity>
         <activity
             android:name="com.example.ludoapp.spiel"
@@ -42,33 +42,30 @@
         <activity
             android:name="com.example.ludoapp.Login"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape" >
+            >
         </activity>
         <activity
             android:name="com.example.ludoapp.Registration"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape" >
+            >
         </activity>
         <activity
             android:name="com.example.ludoapp.Uebersicht"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape" >
+             android:configChanges="keyboardHidden|orientation" >
         </activity>
         <activity
             android:name="com.example.ludoapp.Highscore"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape" >
+             >
         </activity>
-        <activity
-            android:name="com.example.ludoapp.Userscreen"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="landscape" >
-        </activity>
+        
         <activity
             android:name="com.example.ludoapp.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
+        <activity android:name=".Settings" android:label="@string/labelPrefs"></activity>
+        
     </application>
 
 </manifest>

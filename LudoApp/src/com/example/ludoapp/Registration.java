@@ -67,7 +67,7 @@ private TextView mLoginStatusMessageView;
 					Username = UsernameEditText.getText().toString();
 					Passwort = PasswortEditText1.getText().toString();
 					if (Username.length() != 0  & Passwort.length() != 0){
-					//showProgress(true);
+					showProgress(true);
 					registrytask.execute();
 					}else{
 				    showToast("Username und Passwort müssen ausgefüllt sein");
@@ -95,8 +95,8 @@ private TextView mLoginStatusMessageView;
 		@Override
 		protected void onPostExecute(String result) {
 		
-			//showProgress(false);
-			Intent nextScreen = new Intent(getApplicationContext(), Userscreen.class);	
+			showProgress(false);
+			Intent nextScreen = new Intent(getApplicationContext(),  Uebersicht.class);	
 			startActivity(nextScreen);
 			
 		}
