@@ -146,7 +146,7 @@ public class neuesspiel extends ListActivity {
       String keyword = o.toString();
       //Toast.makeText(this, "Es wurde eine Anfrage an Spielleiter Dummy gesendet " + keyword, Toast.LENGTH_SHORT).show();
       //Toast.makeText(this, "Dummyname   Punkte: 1000 " + position+ id , Toast.LENGTH_SHORT).show();
-     
+     key=0;
       int size = checkedPositions.size ();
       for (int i=0 ; i<size ; i++) {
     	  if (checkedPositions.get(i)){
