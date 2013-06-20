@@ -73,9 +73,7 @@ loginTask loginTask;
 					if (Username.length() != 0  & Passwort.length() != 0){
 						//showProgress(true);
 						loginTask.execute();
-						Intent nextScreen = new Intent(getApplicationContext(), Uebersicht.class);
-						nextScreen.putExtra("Username", Username.getText().toString());
-						startActivity(nextScreen);
+						
 						}else{
 					    showToast("Username und Passwort müssen ausgefüllt sein");
 							
@@ -100,6 +98,9 @@ loginTask loginTask;
 			
 			TextView tv = (TextView)findViewById(R.id.textView2);
 			tv.setText(result);
+			//Intent nextScreen = new Intent(getApplicationContext(), Uebersicht.class);
+			//nextScreen.putExtra("Username", Username.getText().toString());
+			//startActivity(nextScreen);
 			
 		}
 
