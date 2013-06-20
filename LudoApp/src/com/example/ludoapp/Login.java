@@ -2,6 +2,7 @@ package com.example.ludoapp;
 
 import com.example.ludoWebservice.ILudoWebservice;
 import com.example.ludoWebservice.LudoWebserviceStub;
+import com.example.ludoapp.Registration.registryTask;
 
 
 import android.os.AsyncTask;
@@ -32,7 +33,7 @@ private EditText Username;
 private EditText Passwort;
 private SharedPreferences prefs;
 ILudoWebservice service; 
-
+loginTask loginTask;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ ILudoWebservice service;
 					
 					if (Username.length() != 0  & Passwort.length() != 0){
 						//showProgress(true);
-						//registrytask.execute();
+						loginTask.execute();
 						Intent nextScreen = new Intent(getApplicationContext(), Uebersicht.class);
 						nextScreen.putExtra("Username", Username.getText().toString());
 						startActivity(nextScreen);
@@ -92,24 +93,24 @@ ILudoWebservice service;
 		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 		}	
 		
-	/*class sayhellotask extends AsyncTask<String, Void, String>{
+	class loginTask extends AsyncTask<String, Void, String>{
 
 		@Override
 		protected void onPostExecute(String result) {
 			
-			//TextView tv = (TextView)findViewById(R.id.textView2);
-			//tv.setText(result);
+			TextView tv = (TextView)findViewById(R.id.textView2);
+			tv.setText(result);
 			
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
-			//String result = service.getHelloString();
+			String result = service.login();
 			
-			//return result.toString();
+			return result.toString();
 			}
 			
-	}*/
+	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
