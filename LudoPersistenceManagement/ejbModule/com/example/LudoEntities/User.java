@@ -52,6 +52,10 @@ public class User implements Serializable {
 		this.password = password;
 	}
 	
+	public int getUserId(){
+		return this.id;
+	}
+	
 	public String getPassword() {
 		return password;
 	}		

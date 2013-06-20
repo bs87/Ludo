@@ -6,7 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.example.LudoEntities.User;
-import com.example.LudoEntities.Game;
+import com.example.LudoEntities.*;
+
 
 /**
  * Session Bean implementation class XbankDAO
@@ -32,18 +33,55 @@ public class LudoDAO implements LudoDAOLocal {
 	}
 
 	@Override
-	public int createSession(User user) {
+	public int createSession(int userId) {
+		Session Session = new Session();
+		Session.setUserId(userId);
+		em.persist(Session);
+		return Session.getSessionId();
+		
 		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
 	public void closeSession(int id) {
-		// TODO Auto-generated method stub		
+		Session session = em.find(Session.class, id);
+		em.getTransaction().begin();
+		em.remove(session);
+		em.getTransaction().commit();
 	}		
 	
 	@Override
 	public Game findGameById(int gameId){
 		return em.find(Game.class, gameId);
+	}
+	
+	@Override
+	public int createGame(int spielErstellerId, int anzahlSpieler) {
+		Game Game = new Game();
+		Game.setIdSpielErsteller(spielErstellerId);
+		Game.setAnzahlSpieler(anzahlSpieler);
+		em.persist(Game);
+		return Game.getId();
+	}
+	
+	@Override
+	public int createGame(int spielErstellerId, int anzahlSpieler, int idSpieler2) {
+		Game Game = new Game();
+		Game.setIdSpielErsteller(spielErstellerId);
+		Game.setAnzahlSpieler(anzahlSpieler);
+		Game.setIdSpieler2(idSpieler2);
+		em.persist(Game);
+		return Game.getId();
+	}
+	
+	@Override
+	public int createGame(int spielErstellerId, int anzahlSpieler, int idSpieler2, int idSpieler3) {
+		Game Game = new Game();
+		Game.setIdSpielErsteller(spielErstellerId);
+		Game.setAnzahlSpieler(anzahlSpieler);
+		Game.setIdSpieler2(idSpieler2);
+		Game.setIdSpieler3(idSpieler3);
+		em.persist(Game);
+		return Game.getId();
 	}
 }
