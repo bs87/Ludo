@@ -6,7 +6,7 @@ package com.example.ludoWebservice;
  * @author Koopmann
  *
  */
-public class Player extends User {
+public class Visitor extends User {
 
 	private static final long serialVersionUID = 1L;
 

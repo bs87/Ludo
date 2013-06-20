@@ -38,10 +38,14 @@ public class LudoWebserviceStub implements ILudoWebservice {
     
 	
 	@Override
-	public String getLoginDaten(String Username, String Passwort) {
-		String Methodname = "checklogin";
-		Object result = executeSoapAction(Methodname, Username, Passwort);
-		return result.toString();
+	public User login(String username, String password) {
+		User result = null;
+		String METHOD_NAME = "login";
+		SoapObject response = executeSoapAction(METHOD_NAME, username, password);
+		Log.d(TAG, response.toString());
+		this.sessionId = Integer.parseInt(response.getPrimitivePropertySafelyAsString("sessionId"));
+		result = new User(username, password);
+		return result;
 	}
 	
 	@Override

@@ -20,7 +20,7 @@ public interface ILudoWebservice {
 	 * @throws PasswortUngueltigException 
 	 * @throws UsernameUngueltigException 
 	 */
-	public String getLoginDaten (String Username,String Passwort );
+	public Kunde login(String username, String password);
 	
 	/**
 	 * Operation zum Ausloggen. Schliesst die Session des Nutzers.
@@ -33,11 +33,6 @@ public interface ILudoWebservice {
 	 * @return
 	 */
 	public Set<Game> getGameList();
-	
-		
-		
-		//public Kunde login(String username, String password);
-		
 		
 		
 	/**
