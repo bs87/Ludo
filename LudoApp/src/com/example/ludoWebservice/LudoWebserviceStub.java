@@ -1,6 +1,9 @@
 package com.example.ludoWebservice;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.ksoap2.HeaderProperty;
 import org.ksoap2.SoapEnvelope;
@@ -9,6 +12,8 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+
+import android.util.Log;
 
 
 
@@ -31,24 +36,75 @@ public class LudoWebserviceStub implements ILudoWebservice {
 	 * TAG contains the class name and is used for logging.
 	 */
     private static final String TAG = LudoWebserviceStub.class.getName();
+    
+    private int sessionId;
 
     
+	
+	@Override
+	public User loginweb(String username, String password) {
+		User result = null;
+		String METHOD_NAME = "login";
+		System.out.println(username+"webservicestubusername-------------------------------"+password);
+
+		Object response = executeSoapAction(METHOD_NAME, username, password);
+		
+		Log.d(TAG, response.toString());
+		this.sessionId = Integer.parseInt(((SoapObject) response).getPrimitivePropertySafelyAsString("sessionId"));
+		result = new User(username, password);
+		return result;
+	}
+	
+	@Override
+	public void logout(){
+		Log.d(TAG,"logout called.");
+		String METHOD_NAME = "logout";
+		Object response = executeSoapAction(METHOD_NAME, sessionId);
+		Log.d(TAG, response.toString());
+	}
+	
+	
+	@Override
+	public Set<Game> getGameList() {
+		Log.d(TAG,"getGameList called.");		
+		Set<Game> result = new HashSet<Game>();
+		String METHOD_NAME = "getGameList";
+		SoapObject response = (SoapObject) executeSoapAction(METHOD_NAME, sessionId);
+		Log.d(TAG, response.toString());
+		//Eigene Konten einlesen:
+		for (int i=1; i<response.getPropertyCount(); i++) {
+			SoapObject soapGameEntry = (SoapObject) response.getProperty(i);
+			SoapPrimitive soapGame = (SoapPrimitive) soapGameEntry.getProperty("id");
+			SoapPrimitive soapPlayer = (SoapPrimitive) soapGameEntry.getProperty("numberOfPlayer");
+			Game spiel = new Game();
+			spiel.setGameID(Integer.valueOf(soapGame.toString()));
+			spiel.setNumberOfPlayer(Integer.valueOf(soapPlayer.toString()));
+			result.add(spiel);
+		}
+		return result;
+	}
+	
+	@Override
+	public Integer getNumberOfPlayer(Integer gameID){
+		Log.d(TAG,"getNumberOfPlayer called.");
+		String METHOD_NAME = "getNumberOfPlayer";
+		SoapObject response = (SoapObject) executeSoapAction(METHOD_NAME, sessionId, gameID);
+		Log.d(TAG, response.toString());
+		return new Integer(response.getPrimitivePropertySafelyAsString("numberOfPlayer"));
+	}
     
-    
+	
 	@Override
 	public String getHelloString() {
 		String Methodname = "sayhello";
 		Object result = executeSoapAction(Methodname);
 		return result.toString();
 	}
-	
-	@Override
-	public String getLoginDaten(String Username, String Passwort) {
-		String Methodname = "checklogin";
-		Object result = executeSoapAction(Methodname, Username, Passwort);
-		return result.toString();
-	}
-    
+	/**
+	 * Diese Methode delegiert einen Methodenaufruf an den hinterlegten WebService.
+	 * @param methodName
+	 * @return
+	 */
     
 private Object executeSoapAction(String methodName, Object... args) {
 		
@@ -106,6 +162,14 @@ private Object executeSoapAction(String methodName, Object... args) {
 	    
 	  //  return (SoapObject) result;
 	    return result;
+	}
+
+
+
+	@Override
+	public String getLoginDaten(String Username, String Passwort) {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 	
 }

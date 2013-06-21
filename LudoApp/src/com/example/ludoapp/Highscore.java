@@ -33,7 +33,10 @@ public class Highscore extends ListActivity {
         setContentView(R.layout.highscore);
         adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listItems);
         setListAdapter(adapter);
-      
+        for (int i=0; i<5; i++){
+        	listItems.add("Platz "+i+":" + "User"+i+": 1000"+i );
+            adapter.notifyDataSetChanged();
+        	}
           
    
      
@@ -50,8 +53,7 @@ public class Highscore extends ListActivity {
       }
     //METHOD WHICH WILL HANDLE DYNAMIC INSERTION
     public void addItems(View v) {
-        listItems.add("Spielleiter22222222222222: Dummy"+clickCounter++ + "Anzahl der Spieler: "+clickCounter++);
-        adapter.notifyDataSetChanged();
+    	
     }
     void showToast(CharSequence msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

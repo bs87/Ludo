@@ -24,7 +24,7 @@ public class Registration extends Activity {
 
 private Button zurueck;
 private Button register;
-registryTask registrytask;
+//registryTask registrytask;
 ILudoWebservice service; 
 private String Username, Passwort;
 private EditText UsernameEditText;
@@ -42,7 +42,7 @@ private TextView mLoginStatusMessageView;
 		// AsyncTasks zur Registrierung
 		
 		service = new LudoWebserviceStub();
-		registrytask = new registryTask();
+		//registrytask = new registryTask();
 		UsernameEditText = (EditText) findViewById(R.id.editTextBenutzername);		
 		PasswortEditText1 = (EditText) findViewById(R.id.editTextPasswort1);
 		mLoginFormView = findViewById(R.id.login_form);
@@ -67,8 +67,8 @@ private TextView mLoginStatusMessageView;
 					Username = UsernameEditText.getText().toString();
 					Passwort = PasswortEditText1.getText().toString();
 					if (Username.length() != 0  & Passwort.length() != 0){
-					//showProgress(true);
-					registrytask.execute();
+					showProgress(true);
+					//registrytask.execute();
 					}else{
 				    showToast("Username und Passwort müssen ausgefüllt sein");
 						
@@ -90,25 +90,25 @@ private TextView mLoginStatusMessageView;
 	}
 
 	
-	class registryTask extends AsyncTask<String, Integer, String>{
+	/*class registryTask extends AsyncTask<String, Integer, String>{
 
 		@Override
 		protected void onPostExecute(String result) {
 		
-			//showProgress(false);
-			Intent nextScreen = new Intent(getApplicationContext(), Userscreen.class);	
+			showProgress(false);
+			Intent nextScreen = new Intent(getApplicationContext(),  Uebersicht.class);	
 			startActivity(nextScreen);
 			
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
-			String result = service.getLoginDaten(Username,Passwort);
+			//String result = service.getLoginDaten(Username,Passwort);
 			
 			return result.toString();
-			}
+		}
 			
-	}
+	}*/
 	
 	void showToast(CharSequence msg) {
 		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

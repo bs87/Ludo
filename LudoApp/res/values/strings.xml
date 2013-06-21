@@ -25,4 +25,26 @@
  		<!-- Spiel -->
  		<string name="spiel">Spiel</string>
  		<string name="Wuerfel">würfeln</string>
+ 		
+ 		
+ 		 <string name="button">Einstellungen</string>
+
+
+    
+    <string name="title_et1">eine Texteingabe</string>
+    <string name="summary_et1">und noch eine Beschreibung</string>
+    <string name="dialog_title_et1">Überschrift</string>
+    <string name="titleUsername">Benutzername</string>
+    <string name="summaryUsername">Hier können Sie Ihren Benutzernamen speichern.</string>
+        <string name="titleautologin">Auto Login</string>
+    <string name="summaryautologin">Dadurch </string>
+    <string name="titlePassword">Kennwort</string>
+    <string name="summaryPassword">Hier können Sie Ihr Kennwort speichern.</string>
+    <string name="labelPrefs">Einstellungen</string>
+    <string name="labelTransactions">Transaktionen</string>
+    <string name="bnLogin">Login</string>
+	<string name="bnLogout">Logout</string>    
+	<string name="bnTransactions">Transaktionen</string>	
+    <string name="msgLoginFehlt">Bitte loggen Sie sich ein.</string>
+
 </resources>

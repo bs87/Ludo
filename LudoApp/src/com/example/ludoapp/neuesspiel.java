@@ -1,20 +1,27 @@
 package com.example.ludoapp;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.app.ListActivity;
 
-public class neuesspiel extends Activity {
+
+public class neuesspiel extends ListActivity {
 	
 	private Spinner anzahl_spieler;
 	private TextView auswahl_anzahl;
@@ -27,51 +34,41 @@ public class neuesspiel extends Activity {
 	private TextView Spielername3;
 	private TextView Spielername4;
 	private Button los;
+	private Button spielVeroeffentlichen;
 	private Integer number;
+	private SparseBooleanArray checkedPositions;
+	
 	
 	   void showToast(CharSequence msg) {
 	        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 	    }
-	
+	   
+	   protected int splashTime = 3000;
+       TextView tv1;
+       String[] name = {"A","N","D","R","O","I","D"};
+       int timer =0;
+       int key=0;
+     //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
+       ArrayList<String> listItems=new ArrayList<String>();
+
+       //DEFINING STRING ADAPTER WHICH WILL HANDLE DATA OF LISTVIEW
+       ArrayAdapter<String> adapter;
+
+       //RECORDING HOW MUCH TIMES BUTTON WAS CLICKED
+       int clickCounter=0;
+       
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.neuesspiel);
-        auswahl_anzahl = (TextView) findViewById(R.id.auswahl_anzahl);
-        auswahl_anzahl.setText(R.string.auswahl_anzahl);
-        
-        
-        Integer[] items = new Integer[] {2, 3,4};
-        final Spinner spinner = (Spinner) findViewById(R.id.anzahl_spieler);
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this,
-        android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        
-        
-        anzahl_spieler = (Spinner) findViewById(R.id.anzahl_spieler);
-        
-        Spielername1 = (TextView) findViewById(R.id.spielername1); 
-        Spielername1.setText(R.string.Spieler1);
-        Spieler1 = (EditText) findViewById(R.id.Spieler1);
-        
-        Spielername2 = (TextView) findViewById(R.id.spielername2);
-        Spielername2.setText(R.string.Spieler2);
-        Spieler2 = (EditText) findViewById(R.id.Spieler2);
-        
-        Spielername3 = (TextView) findViewById(R.id.spielername3); 
-        Spielername3.setText(R.string.Spieler3);
-        Spieler3 = (EditText) findViewById(R.id.Spieler3);
-        
-        Spielername4 = (TextView) findViewById(R.id.spielername4);
-        Spielername4.setText(R.string.Spieler4);
-        Spieler4 = (EditText) findViewById(R.id.Spieler4);
-  
-        
-        los = (Button) findViewById(R.id.los);
-        los.setText(R.string.los);
-        
-        
+        tv1 = (TextView) findViewById(R.id.textView1);
+        ListView lstView = getListView();
+        lstView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        lstView.setTextFilterEnabled(true);
+        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice,listItems);
+        setListAdapter(adapter);
+        checkedPositions = lstView.getCheckedItemPositions ();
+        /*
         los.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -83,66 +80,90 @@ public class neuesspiel extends Activity {
                 nextScreen.putExtra("number", number.toString());
             	startActivity(nextScreen);
 			}
-		});
+		});*/
         
-        spinner.setOnItemSelectedListener(
-                new OnItemSelectedListener() {
-                    public void onItemSelected(
-                            AdapterView<?> parent, View view, int position, long id) {
-                    	 number = Integer.parseInt(spinner.getSelectedItem().toString());
-                        //showToast("Spinner1: position=" + position + " id=" + id );
-                        if (number == 2){
-                        	Spielername1.setVisibility(View.VISIBLE);
-                        	Spieler1.setVisibility(View.VISIBLE);
-                        	
-                         	Spielername2.setVisibility(View.VISIBLE);
-                        	Spieler2.setVisibility(View.VISIBLE);
-                        	
-                        	Spielername3.setVisibility(View.INVISIBLE);
-                        	Spieler3.setVisibility(View.INVISIBLE);
-                        	
-                         	Spielername4.setVisibility(View.INVISIBLE);
-                        	Spieler4.setVisibility(View.INVISIBLE);
-                        }
-                        if (number == 3){
-                        	Spielername1.setVisibility(View.VISIBLE);
-                        	Spieler1.setVisibility(View.VISIBLE);
-                        	
-                         	Spielername2.setVisibility(View.VISIBLE);
-                        	Spieler2.setVisibility(View.VISIBLE);
-                        	
-                        	Spielername3.setVisibility(View.VISIBLE);
-                        	Spieler3.setVisibility(View.VISIBLE);
-                        	
-                         	Spielername4.setVisibility(View.INVISIBLE);
-                        	Spieler4.setVisibility(View.INVISIBLE);
-                        }
-                        if (number == 4){
-                        	Spielername1.setVisibility(View.VISIBLE);
-                        	Spieler1.setVisibility(View.VISIBLE);
-                        	
-                         	Spielername2.setVisibility(View.VISIBLE);
-                        	Spieler2.setVisibility(View.VISIBLE);
-                        	
-                        	Spielername3.setVisibility(View.VISIBLE);
-                        	Spieler3.setVisibility(View.VISIBLE);
-                        	
-                         	Spielername4.setVisibility(View.VISIBLE);
-                        	Spieler4.setVisibility(View.VISIBLE);
-                        }
-                        
-                        
-                    }
+        
+        
+        
+        // dran denken TH.stop zu machen wenn man das Spiel startet
+        final Thread th=new Thread(){
+        @Override
+        public void run(){
+            try
+            {
+                for (timer = 0; timer < 7; timer++)
+                {
+                	listItems.add("Dummyname"+timer );
+                    int waited = 0;
+                    while(waited < splashTime)
+                    {
+                        Thread.sleep(100);
+                        runOnUiThread(new Runnable() { 
+                            @Override
+                            public void run() {
+                                try {
+                                	
+                                	adapter.notifyDataSetChanged();  
+                                }
+                                catch(Exception e) 
+                                {
+                                    e.printStackTrace();
+                                } 
+                            }
+                        });
+                        waited += 100;
+                    } 
+                    
+                }
+                
+            }catch (InterruptedException e) {
+            }
 
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-						// TODO Auto-generated method stub
-						
-					}
-                });
+        }
+    };
+    
+                                    	                                                                                     
+                
+        
 
         
+        spielVeroeffentlichen = (Button) findViewById(R.id.buttonSpielVeroeffentlichen);
+    	
+        spielVeroeffentlichen.setOnClickListener(new OnClickListener(){
+    			@Override
+    			public void onClick(View v) {
+    				th.start();	
+    			}
+    		});	
+        }
+    
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+      super.onListItemClick(l, v, position, id);
+      // Get the item that was clicked
+      Object o = this.getListAdapter().getItem(position);
+      String keyword = o.toString();
+      //Toast.makeText(this, "Es wurde eine Anfrage an Spielleiter Dummy gesendet " + keyword, Toast.LENGTH_SHORT).show();
+      //Toast.makeText(this, "Dummyname   Punkte: 1000 " + position+ id , Toast.LENGTH_SHORT).show();
+     key=0;
+      int size = checkedPositions.size ();
+      for (int i=0 ; i<size ; i++) {
+    	  if (checkedPositions.get(i)){
+    		  key++;
+    		  tv1.setText(""+ key);
+    	  }
+    	        //the item is not checked, do something else
+    	}
+     ;
+    }
+  //METHOD WHICH WILL HANDLE DYNAMIC INSERTION
+  public void addItems(View v) {
+     
+  }
+
+    
+     
         
     }
     
-}

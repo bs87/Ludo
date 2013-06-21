@@ -1,11 +1,13 @@
 package com.example.LudoDao;
 
+
+
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-import com.example.LudoEntities.User;
 import com.example.LudoEntities.*;
 
 
@@ -20,24 +22,40 @@ public class LudoDAO implements LudoDAOLocal {
 	private EntityManager em;
 	
 	public User findUserByName(String userName){
-		return em.find(User.class, userName);
+		try{
+			Query query = em.createQuery("select p from User p where USERNAME = :USERNAME", User.class);
+			query.setParameter("USERNAME", userName);
+			User user = (com.example.LudoEntities.User) query.getSingleResult();
+			return user;
+		}catch (Exception e){
+			System.err.println("Benutzername nicht vorhanden");
+		}
+		return null;
 	}
 	
 	@Override
-	public String createUser(String userName, String Passwort) {
+	public int createUser(String userName, String Passwort) {
 		User User = new User();
 		User.setUserName(userName);
 		User.setPassword(Passwort);
 		em.persist(User);
-		return User.getUserName();
+		em.close();
+		return User.getUserId();
 	}
 
 	@Override
 	public int createSession(int userId) {
+		System.out.println(userId+"UserIDausgabe-------------------------------");
 		Session Session = new Session();
 		Session.setUserId(userId);
 		em.persist(Session);
-		return Session.getSessionId();
+		
+		Query query = em.createQuery("select p from Session p where userId = :userId", Session.class);
+		query.setParameter("userId", userId);
+		Session session2 = (com.example.LudoEntities.Session) query.getSingleResult();
+		System.out.println(session2+"session2-------------------------------");
+		em.close();
+		return session2.getSessionId();
 		
 		// TODO Auto-generated method stub
 	}
@@ -48,6 +66,7 @@ public class LudoDAO implements LudoDAOLocal {
 		em.getTransaction().begin();
 		em.remove(session);
 		em.getTransaction().commit();
+		em.close();
 	}		
 	
 	@Override

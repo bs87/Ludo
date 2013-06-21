@@ -10,7 +10,7 @@ public interface LudoDAOLocal {
 
 	public User findUserByName(String userName);
 	
-	public String createUser(String userName, String Passwort);
+	public int createUser(String userName, String Passwort);
 
 	public void closeSession(int id);
 	
