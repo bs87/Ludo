@@ -39,7 +39,6 @@ public class LudoDAO implements LudoDAOLocal {
 		User.setUserName(userName);
 		User.setPassword(Passwort);
 		em.persist(User);
-		em.close();
 		return User.getUserId();
 	}
 
@@ -54,7 +53,6 @@ public class LudoDAO implements LudoDAOLocal {
 		query.setParameter("userId", userId);
 		Session session2 = (com.example.LudoEntities.Session) query.getSingleResult();
 		System.out.println(session2+"session2-------------------------------");
-		em.close();
 		return session2.getSessionId();
 		
 		// TODO Auto-generated method stub
@@ -66,7 +64,6 @@ public class LudoDAO implements LudoDAOLocal {
 		em.getTransaction().begin();
 		em.remove(session);
 		em.getTransaction().commit();
-		em.close();
 	}		
 	
 	@Override
