@@ -5,6 +5,7 @@ package com.example.ludoapp;
 import com.example.ludoWebservice.ILudoWebservice;
 import com.example.ludoWebservice.LudoWebserviceStub;
 import com.example.ludoWebservice.User;
+
 //import com.example.ludoapp.Registration.registryTask;
 
 
@@ -14,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,8 +76,8 @@ sayhellotask hellotask;
 		login.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					 username = Login.this.prefs.getString("username", "");
-					 passwort = Login.this.prefs.getString("password", "");
+					 username = Username.getText().toString();
+					 passwort = Passwort.getText().toString();
 					
 					if (Username.length() != 0  & Passwort.length() != 0){
 						//showProgress(true);
@@ -107,19 +109,30 @@ sayhellotask hellotask;
 		@Override
 		protected void onPostExecute(String result) {
 			
-			//TextView tv = (TextView)findViewById(R.id.textView2);
-			//tv.setText(result);
-			//Intent nextScreen = new Intent(getApplicationContext(), Uebersicht.class);
-			//nextScreen.putExtra("Username", Username.getText().toString());
-			//startActivity(nextScreen);
+			TextView tv = (TextView)findViewById(R.id.textView2);
 			
+			int s = result.lastIndexOf("/");
+			String username2 = result.substring  ( 0, s );
+			String id = result.substring(s+1,result.length());
+			tv.setText("Username "+username2+" ID: "+id);
+			
+			if(id.equals("0")){
+				showToast("Username oder Passwort falsch");
+			}else{
+				Intent nextScreen = new Intent(getApplicationContext(), Uebersicht.class);
+				nextScreen.putExtra("username", username2);
+				nextScreen.putExtra("id", id);
+				startActivity(nextScreen);
+			}
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
-			User result = service.loginweb("test", "123");
-			
-			return result.toString();
+			User result = service.loginweb(username, passwort);
+			int id = result.getSessionID();
+			String username = result.getUserName();
+			String userinfo = username+"/"+id; 
+			return userinfo;
 			}
 			
 	}

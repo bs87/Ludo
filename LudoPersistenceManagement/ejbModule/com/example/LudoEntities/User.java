@@ -1,4 +1,5 @@
 package com.example.LudoEntities;
+/*@author: Florian Kopp*/
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,13 +24,6 @@ public class User implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
 	private String userName;
 	private String password;
-	
-	/**
-	 * Bidirektionale Eins-zu-Viele Behiehung
-	 * FetchType.LAZY = lazy loading (alternativ: FetchType.EAGER)
-	 * @Mapkey benutzt die Id als Key für die Map
-	 */
-	//@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="owner") @MapKey
 	
 	public User() {
 		super();

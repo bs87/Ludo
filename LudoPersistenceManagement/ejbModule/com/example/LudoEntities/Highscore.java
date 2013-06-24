@@ -1,4 +1,5 @@
 package com.example.LudoEntities;
+/*@author: Florian Kopp*/
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,17 +21,8 @@ public class Highscore implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
-	private int userId;
-	private int punkte;
-	private int platzierung;
-	
-	/**
-	 * Bidirektionale Eins-zu-Viele Behiehung
-	 * FetchType.LAZY = lazy loading (alternativ: FetchType.EAGER)
-	 * @Mapkey benutzt die Id als Key für die Map
-	 */
-	//@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="owner") @MapKey
+	@Id	private int userId;
+	private int punkte = 0;
 	
 	public Highscore() {
 		super();
@@ -44,9 +36,13 @@ public class Highscore implements Serializable {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+	
+	public int getUserId(){
+		return this.userId;
+	}
 
-	public void setPunkte(int punkte) {
-		this.punkte = punkte;
+	public void updatePunkte(int punkte) {
+		this.punkte = this.punkte + punkte;
 	}
 	
 	public int getPunkte() {

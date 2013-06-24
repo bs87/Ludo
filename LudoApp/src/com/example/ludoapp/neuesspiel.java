@@ -1,12 +1,16 @@
 package com.example.ludoapp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.example.ludoWebservice.LudoWebserviceStub;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -32,7 +36,7 @@ public class neuesspiel extends ListActivity {
 	private TextView Spielername1;
 	private TextView Spielername2;
 	private TextView Spielername3;
-	private TextView Spielername4;
+	private TextView textAnfragen;
 	private Button los;
 	private Button spielVeroeffentlichen;
 	private Integer number;
@@ -48,6 +52,10 @@ public class neuesspiel extends ListActivity {
        String[] name = {"A","N","D","R","O","I","D"};
        int timer =0;
        int key=0;
+       HashMap<String,String> h = new HashMap<String,String>();
+       private static final String TAG = neuesspiel.class.getName();
+
+       
      //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
        ArrayList<String> listItems=new ArrayList<String>();
 
@@ -62,6 +70,7 @@ public class neuesspiel extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.neuesspiel);
         tv1 = (TextView) findViewById(R.id.textView1);
+        textAnfragen = (TextView) findViewById(R.id.textAnfragen);
         ListView lstView = getListView();
         lstView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         lstView.setTextFilterEnabled(true);
@@ -141,19 +150,33 @@ public class neuesspiel extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
       super.onListItemClick(l, v, position, id);
+      CheckedTextView check = (CheckedTextView)v;
       // Get the item that was clicked
       Object o = this.getListAdapter().getItem(position);
       String keyword = o.toString();
       //Toast.makeText(this, "Es wurde eine Anfrage an Spielleiter Dummy gesendet " + keyword, Toast.LENGTH_SHORT).show();
       //Toast.makeText(this, "Dummyname   Punkte: 1000 " + position+ id , Toast.LENGTH_SHORT).show();
-     key=0;
+      key=0;
       int size = checkedPositions.size ();
       for (int i=0 ; i<size ; i++) {
     	  if (checkedPositions.get(i)){
     		  key++;
-    		  tv1.setText(""+ key);
+    		     if(h.size()==3){
+    		         check.setChecked(false);
+    		     }else{
+    		    	  h.put( o.toString(),o.toString());
+    		     }
+    		 
+    	  }else{
+    		  h.remove( o.toString());
     	  }
-    	        //the item is not checked, do something else
+    	  tv1.setText(h.size()+"");
+    	  if(h.size()==3)
+	    	Toast.makeText(this, "Es wurden schon 3 Spieler ausgewählt " , Toast.LENGTH_SHORT).show(); 
+
+    	  for ( String elem : h.keySet() )
+    		  Log.d(TAG, elem );
+    	  //the item is not checked, do something else
     	}
      ;
     }

@@ -31,51 +31,18 @@ public class Game implements Serializable {
 	private int platzierung3;
 	private int platzierung2;
 	private int platzierung1;
-	private Boolean bisEndeGespielt1;
-	private Boolean bisEndeGespielt2;
-	private Boolean bisEndeGespielt3;
-	private Boolean bisEndeGespielt4;
-	
-	
-	/**
-	 * Bidirektionale Eins-zu-Viele Behiehung
-	 * FetchType.LAZY = lazy loading (alternativ: FetchType.EAGER)
-	 * @Mapkey benutzt die Id als Key für die Map
-	 */
-	//@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, mappedBy="owner") @MapKey
+	private boolean bisEndeGespielt1 = false;
+	private boolean bisEndeGespielt2 = false;
+	private boolean bisEndeGespielt3 = false;
+	private boolean bisEndeGespielt4 = false;
+	private boolean spielBeendet = false;
 	
 	public Game() {
 		super();
 	}
 	
-	public Game(int anzahlSpieler, int idSpielErsteller, int idSpieler2) {
-		this.anzahlSpieler = anzahlSpieler;
+	public Game(int idSpielErsteller) {
 		this.idSpielErsteller = idSpielErsteller;
-		this.idSpieler2 = idSpieler2;	
-		this.bisEndeGespielt1 = true;
-		this.bisEndeGespielt2 = true;
-	}	
-
-	public Game(int anzahlSpieler, int idSpielErsteller, int idSpieler2, int idSpieler3) {
-		this.anzahlSpieler = anzahlSpieler;
-		this.idSpielErsteller = idSpielErsteller;
-		this.idSpieler2 = idSpieler2;	
-		this.idSpieler3 = idSpieler3;
-		this.bisEndeGespielt1 = true;
-		this.bisEndeGespielt2 = true;
-		this.bisEndeGespielt3 = true;
-	}
-	
-	public Game(int anzahlSpieler, int idSpielErsteller, int idSpieler2, int idSpieler3, int idSpieler4) {
-		this.anzahlSpieler = anzahlSpieler;
-		this.idSpielErsteller = idSpielErsteller;
-		this.idSpieler2 = idSpieler2;	
-		this.idSpieler3 = idSpieler3;
-		this.idSpieler4 = idSpieler4;
-		this.bisEndeGespielt1 = true;
-		this.bisEndeGespielt2 = true;
-		this.bisEndeGespielt3 = true;
-		this.bisEndeGespielt4 = true;
 	}
 	
 	/* setter Methoden*/
@@ -92,6 +59,10 @@ public class Game implements Serializable {
 	
 	public void setIdSpieler3(int idSpieler3){
 		this.idSpieler3 = idSpieler3;
+	}
+	
+	public void setIdSpieler4(int idSpieler4){
+		this.idSpieler4 = idSpieler4;
 	}
 		
 	public void setPlatzierung4(int platzierung4){
@@ -110,20 +81,24 @@ public class Game implements Serializable {
 		this.platzierung1 = platzierung1;
 	}
 	
-	public void setBisEndeGespielt1 (){
-		this.bisEndeGespielt1 = false;
+	public void setBisEndeGespielt1 (boolean bisEngegespielt){
+		this.bisEndeGespielt1 = bisEngegespielt;
 	}
 	
-	public void setBisEndeGespielt2 (){
-		this.bisEndeGespielt2 = false;
+	public void setBisEndeGespielt2 (boolean bisEngegespielt){
+		this.bisEndeGespielt2 = bisEngegespielt;
 	}
 	
-	public void setBisEndeGespielt3 (){
-		this.bisEndeGespielt3= false;
+	public void setBisEndeGespielt3 (boolean bisEngegespielt){
+		this.bisEndeGespielt3= bisEngegespielt;
 	}
 	
-	public void setBisEndeGespielt4 (){
-		this.bisEndeGespielt4 = false;
+	public void setBisEndeGespielt4 (boolean bisEngegespielt){
+		this.bisEndeGespielt4 = bisEngegespielt;
+	}
+	
+	public void setSpielBeendet(boolean spielBeendet){
+		this.spielBeendet = spielBeendet;
 	}
 	
 	
@@ -146,5 +121,15 @@ public class Game implements Serializable {
 	
 	public int getPlatzierung1(){
 		return platzierung1;
+	}
+	
+	public int getIdSpieler2(){
+		return idSpieler2;
+	}
+	public int getIdSpieler3(){
+		return idSpieler3;
+	}
+	public int getIdSpieler4(){
+		return idSpieler4;
 	}
 }

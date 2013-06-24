@@ -14,8 +14,8 @@ public class Player extends User {
 		super();
 	}
 	
-	public Player(String userName, String passwort) {
-		super(userName, passwort);
+	public Player(String userName, String passwort, Integer sessionID) {
+		super(userName, passwort, sessionID);
 	}
 	
 }

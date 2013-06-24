@@ -18,11 +18,28 @@
             <requestFocus />
         </EditText>
 
-        <Button
-            android:id="@+id/buttonSpielVeroeffentlichen"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Spiel veröffentlichen" />
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/buttonSpielStarten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/buttonSpielVeroeffentlichen"
+                android:text="Spiel starten" />
+
+            <Button
+                android:id="@+id/buttonSpielVeroeffentlichen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="Spiel veröffentlichen" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/textView1"

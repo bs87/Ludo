@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="LudoEAR">
         <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
         <dependent-module archiveName="LudoSystem.jar" deploy-path="/" handle="module:/resource/LudoSystem/LudoSystem">
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="09_JPA_PersistenceManagement.jar" deploy-path="/" handle="module:/resource/LudoPersistenceManagement/LudoPersistenceManagement">
+        <dependent-module archiveName="PersistenceManagement.jar" deploy-path="/" handle="module:/resource/LudoPersistenceManagement/LudoPersistenceManagement">
             <dependent-object/>
             <dependency-type>uses</dependency-type>
         </dependent-module>
