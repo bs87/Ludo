@@ -40,8 +40,7 @@ public class LudoDAO implements LudoDAOLocal {
 	
 	@Override
 	public User findUserById(int userId){
-		User user = em.find(User.class, userId);
-		return user;
+		return em.find(User.class,userId);
 	}
 	
 	@Override
@@ -63,13 +62,15 @@ public class LudoDAO implements LudoDAOLocal {
 
 	@Override
 	public int createSession(int userId) {
-		Session Session = new Session();
-		Session.setUserId(userId);
-		em.persist(Session);
+		System.out.println("Session erstellen1");
+		Session session = new Session();
+		session.setUserId(userId);
+		em.persist(session);
 		
 		Query query = em.createQuery("select p from Session p where userId = :userId", Session.class);
 		query.setParameter("userId", userId);
 		Session session2 = (com.example.LudoEntities.Session) query.getSingleResult();
+		System.out.println(findUserById(3).getUserName());
 		return session2.getSessionId();
 	}
 	
@@ -77,6 +78,14 @@ public class LudoDAO implements LudoDAOLocal {
 	public Session findSessionById(int sessionId){
 		Session session = em.find(Session.class, sessionId);
 		return session;
+	}
+	
+	@Override
+	public Session findSessionByUserId(int userId){
+		Query query = em.createQuery("select p from Session p where userId = :userId", Session.class);
+		query.setParameter("userId", userId);
+		Session session2 = (com.example.LudoEntities.Session) query.getSingleResult();
+		return session2;
 	}
 
 	@Override
@@ -94,19 +103,28 @@ public class LudoDAO implements LudoDAOLocal {
 	}
 	
 	@Override
-	public int createGame(int spielerstellerId) {
+	public int createGame(int spielerstellerId, String name) {
 		//Spiel erstellen, benötigt wird die userId des Spielerstellers. Zurück kommt die SpielId
-		Game game = new Game();
-		game.setIdSpielErsteller(spielerstellerId);
+		System.out.println("CreateGameDao. spielerstellerId=" + spielerstellerId+"name"+ name);
+
+		Game game = new Game(spielerstellerId,name);
+		//game.setIdSpielErsteller(spielerstellerId);
 		game.setIdSpieler2(0);
 		game.setIdSpieler3(0);
 		game.setIdSpieler4(0);
 		game.setSpielBeendet(false);
+		System.out.println("CreateGameDao2. spielerstellerId=" + spielerstellerId+"name"+ name);
+
 		em.persist(game);
 		//GameId aus der Datenbank auslesen und zurückgeben
-		Query query = em.createQuery("select g from Game g where spielErstellerId = :spielErstellerId", Game.class);
-		query.setParameter("spielErstellerId", spielerstellerId);
+		
+		Query query = em.createQuery("select g from Game g where IdspielErsteller = :IdspielErsteller", Game.class);
+		query.setParameter("IdspielErsteller", spielerstellerId);
+		System.out.println("CreateGameDao3. spielerstellerId=" + spielerstellerId+"name"+ name);
+
 		Game game2 = (com.example.LudoEntities.Game) query.getSingleResult();
+		System.out.println("CreateGameDao4. spielerstellerId=" + spielerstellerId+"name"+ game2.getId());
+
 		return game2.getId();
 	}
 		
@@ -192,4 +210,10 @@ public class LudoDAO implements LudoDAOLocal {
 		ArrayList<Highscore> highscoreList = new ArrayList<Highscore>(query.getResultList());
 		return highscoreList;
 	}
+	public List <Game> getGames(){
+		Query query = em.createQuery("select g from Game g",Game.class);
+		ArrayList<Game> gamelist = new ArrayList<Game>(query.getResultList());
+		return gamelist;
+	}
+
 }

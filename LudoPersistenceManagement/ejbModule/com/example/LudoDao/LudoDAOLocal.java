@@ -23,9 +23,11 @@ public interface LudoDAOLocal {
 	
 	public Session findSessionById(int sessionId);
 	
+	public Session findSessionByUserId(int userId);
+	
 	public Game findGameById(int gameId);
 	
-	public int createGame(int spielerstellerId);
+	public int createGame(int spielerstellerId, String name);
 
 	public void setSpieler2(int spielId, int idSpieler2);
 	

@@ -12,6 +12,7 @@ public class User implements Serializable {
 	private Integer sessionID;
 	private Map<Integer,Game> gameList;
 	private Integer rank; 
+	private Integer punkte; 
 	
 	public User() {
 		super();
@@ -25,20 +26,21 @@ public class User implements Serializable {
 	}
 	
 	
-	// Konstruktur wird nur für die UserList benötigt. 
+	// Konstruktor wird nur für die UserList benötigt. 
 	public User (String userName){
 		this.userName = userName;
 		this.passwort = null;
 		this.sessionID = null;
 		this.gameList = null;
 	}
-	
-	public User (String userName, int rank){
+	// Konstruktor für die Highscore liste
+	public User (String userName, int rank, int punkte){
 		this.userName = userName;
 		this.passwort = null;
 		this.sessionID = null;
 		this.gameList = null;
 		this.rank = rank;
+		this.punkte = punkte;
 	}
 	
 	public void addGame(Game neuesGame) {

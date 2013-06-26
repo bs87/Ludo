@@ -2,6 +2,7 @@ package com.example.ludoapp;
 
 import com.example.ludoWebservice.ILudoWebservice;
 import com.example.ludoWebservice.LudoWebserviceStub;
+import com.example.ludoWebservice.User;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,7 +25,7 @@ public class Registration extends Activity {
 
 private Button zurueck;
 private Button register;
-//registryTask registrytask;
+registryTask registrytask;
 ILudoWebservice service; 
 private String Username, Passwort;
 private EditText UsernameEditText;
@@ -42,7 +43,7 @@ private TextView mLoginStatusMessageView;
 		// AsyncTasks zur Registrierung
 		
 		service = new LudoWebserviceStub();
-		//registrytask = new registryTask();
+		registrytask = new registryTask();
 		UsernameEditText = (EditText) findViewById(R.id.editTextBenutzername);		
 		PasswortEditText1 = (EditText) findViewById(R.id.editTextPasswort1);
 		mLoginFormView = findViewById(R.id.login_form);
@@ -90,25 +91,37 @@ private TextView mLoginStatusMessageView;
 	}
 
 	
-	/*class registryTask extends AsyncTask<String, Integer, String>{
+	class registryTask extends AsyncTask<String, Integer, String>{
 
 		@Override
 		protected void onPostExecute(String result) {
 		
+			int s = result.lastIndexOf("/");
+			String username2 = result.substring  ( 0, s );
+			String sessionid = result.substring(s+1,result.length());
 			showProgress(false);
-			Intent nextScreen = new Intent(getApplicationContext(),  Uebersicht.class);	
-			startActivity(nextScreen);
+
+			if(sessionid.equals("0")){
+				showToast("Registrierung Fehlgeschleagen. Username schon vorhanden!");
+			}else{
+				Intent nextScreen = new Intent(getApplicationContext(), Uebersicht.class);
+				nextScreen.putExtra("username", username2);
+				nextScreen.putExtra("sessionid", sessionid);
+				startActivity(nextScreen);
+			}
 			
 		}
 
 		@Override
 		protected String doInBackground(String... params) {
-			//String result = service.getLoginDaten(Username,Passwort);
-			
-			return result.toString();
+			User result = service.registerWeb(Username,Passwort);
+			int id = result.getSessionID();
+			String username = result.getUserName();
+			String userinfo = username+"/"+id; 
+			return userinfo;
 		}
 			
-	}*/
+	}
 	
 	void showToast(CharSequence msg) {
 		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

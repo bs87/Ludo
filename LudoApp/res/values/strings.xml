@@ -3,48 +3,46 @@
 
     <string name="app_name">Mensch ärger dich nicht</string>
     <string name="action_settings">Settings</string>
-    
-     <string name="title">Mensch ärger dich nicht </string>
-     <string name="Neues_Spiel">Neues Spiel</string>    
-     <string name="Spiel_fortsetzen">Spiel fortsetzen</string>
-     <string name="Beenden">Beenden</string>
-     <string name="buttonLogin">Login</string>
-     <string name="buttonRegistration">Registrieren</string>
-     
-     <!-- Strings für neues Spiel -->
-       	<string name="neuesspiel">Anzahl Spieler</string>
-       	<string name="auswahl_anzahl">Bitte wählen Sie die Anzahl der Spieler</string>
-       	<string name="Spieler1">Name Spieler 1</string>
-       	<string name="Spieler2">Name Spieler 2</string>
-       	<string name="Spieler3">Name Spieler 3</string>
-       	<string name="Spieler4">Name Spieler 4</string>
- 		<string name="los">Los gehts!</string>
- 		   <string name="hintTxtItem">Enter an item here ...</string>
+    <string name="title">Mensch ärger dich nicht </string>
+    <string name="Neues_Spiel">Neues Spiel</string>
+    <string name="Spiel_fortsetzen">Spiel fortsetzen</string>
+    <string name="Beenden">Beenden</string>
+    <string name="buttonLogin">Login</string>
+    <string name="buttonRegistration">Registrieren</string>
+
+    <!-- Strings für neues Spiel -->
+    <string name="neuesspiel">Anzahl Spieler</string>
+    <string name="auswahl_anzahl">Bitte wählen Sie die Anzahl der Spieler</string>
+    <string name="Spieler1">Name Spieler 1</string>
+    <string name="Spieler2">Name Spieler 2</string>
+    <string name="Spieler3">Name Spieler 3</string>
+    <string name="Spieler4">Name Spieler 4</string>
+    <string name="los">Los gehts!</string>
+    <string name="hintTxtItem">Enter an item here ...</string>
     <string name="lblBtnAdd">Add Item</string>
     <string name="txtEmpty">List is empty</string>
- 		<!-- Spiel -->
- 		<string name="spiel">Spiel</string>
- 		<string name="Wuerfel">würfeln</string>
- 		
- 		
- 		 <string name="button">Einstellungen</string>
-
-
-    
+    <!-- Spiel -->
+    <string name="spiel">Spiel</string>
+    <string name="Wuerfel">würfeln</string>
+    <string name="button">Einstellungen</string>
     <string name="title_et1">eine Texteingabe</string>
     <string name="summary_et1">und noch eine Beschreibung</string>
     <string name="dialog_title_et1">Überschrift</string>
     <string name="titleUsername">Benutzername</string>
     <string name="summaryUsername">Hier können Sie Ihren Benutzernamen speichern.</string>
-        <string name="titleautologin">Auto Login</string>
+    <string name="titleautologin">Auto Login</string>
     <string name="summaryautologin">Dadurch </string>
     <string name="titlePassword">Kennwort</string>
     <string name="summaryPassword">Hier können Sie Ihr Kennwort speichern.</string>
     <string name="labelPrefs">Einstellungen</string>
+    <string name="labelPrefs2">Refresh</string>
+     <string name="labelPrefs3">Spiel verlassen</string>
     <string name="labelTransactions">Transaktionen</string>
     <string name="bnLogin">Login</string>
-	<string name="bnLogout">Logout</string>    
-	<string name="bnTransactions">Transaktionen</string>	
+    <string name="bnLogout">Logout</string>
+    <string name="bnTransactions">Transaktionen</string>
     <string name="msgLoginFehlt">Bitte loggen Sie sich ein.</string>
+    <string name="title_activity_gameroom">Gameroom</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

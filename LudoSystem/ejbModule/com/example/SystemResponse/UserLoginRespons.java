@@ -9,7 +9,7 @@ public class UserLoginRespons {
 	}
 	
 	public int getSessionId(){
-		return sessionId;
+		return this.sessionId;
 	}
 	
 	public void setSessionId(int sessionId){

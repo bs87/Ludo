@@ -22,6 +22,7 @@ public class Game implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
+	private String name;
 	private int anzahlSpieler;
 	private int idSpielErsteller;
 	private int idSpieler2;
@@ -36,13 +37,15 @@ public class Game implements Serializable {
 	private boolean bisEndeGespielt3 = false;
 	private boolean bisEndeGespielt4 = false;
 	private boolean spielBeendet = false;
+	private boolean highscoreEingetragen = false;
 	
 	public Game() {
 		super();
 	}
 	
-	public Game(int idSpielErsteller) {
+	public Game(int idSpielErsteller, String name) {
 		this.idSpielErsteller = idSpielErsteller;
+		this.name = name;
 	}
 	
 	/* setter Methoden*/
@@ -101,28 +104,27 @@ public class Game implements Serializable {
 		this.spielBeendet = spielBeendet;
 	}
 	
+	public void setHighscoreEingetragen(boolean highscoreEingetragen){
+		this.highscoreEingetragen = highscoreEingetragen;
+	}
+	
 	
 	/* Getter Methoden*/
 	public int getId(){
 		return id;
-	}
-	
+	}	
 	public int getPlatzierung4(){
 		return platzierung4;
-	}
-	
+	}	
 	public int getPlatzierung3(){
 		return platzierung3;
-	}
-	
+	}	
 	public int getPlatzierung2(){
 		return platzierung2;
-	}
-	
+	}	
 	public int getPlatzierung1(){
 		return platzierung1;
-	}
-	
+	}	
 	public int getIdSpieler2(){
 		return idSpieler2;
 	}
@@ -131,5 +133,23 @@ public class Game implements Serializable {
 	}
 	public int getIdSpieler4(){
 		return idSpieler4;
+	}
+	public boolean getBisEndeGespielt1(){
+		return bisEndeGespielt1;
+	}
+	public boolean getBisEndeGespielt2(){
+		return bisEndeGespielt2;
+	}
+	public boolean getBisEndeGespielt3(){
+		return bisEndeGespielt3;
+	}
+	public boolean getBisEndeGespielt4(){
+		return bisEndeGespielt4;
+	}
+	public boolean getSpielBeendet(){
+		return spielBeendet;
+	}
+	public boolean getHighscoreEingetragen(){
+		return highscoreEingetragen;
 	}
 }

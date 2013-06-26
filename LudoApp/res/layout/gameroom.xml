@@ -1,0 +1,87 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#D3D3D3"
+        android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textViewGameroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:text="Game Room"
+        android:textColor="@android:color/black"
+        android:textColorLink="@android:color/white"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textSpielname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Spielname:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textSpielleiter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Spielleiter:"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/buttonAnfragestellen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="Anfrage stellen"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/buttonSpielBeitreten"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Spiel starten"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/buttonSpielRaumVerlassen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Spielraum verlassen"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textBisherigeteilnehmer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="Bisherige Teilnehmer"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="196dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textViewHighscore"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="#D3D3D3"
+        android:drawSelectorOnTop="false" >
+
+    </ListView>
+
+</LinearLayout>

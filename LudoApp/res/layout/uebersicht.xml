@@ -1,43 +1,83 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#D3D3D3"
-    android:orientation="vertical" >
-
-    <Button
-        android:id="@+id/buttonHighscore"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Highscore"
-        android:textSize="20sp" />
-
- <Button
-     android:id="@+id/buttonNeuesSpielErstellen"
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:layout_marginTop="10dp"
-     android:text="Neues Spiel erstellen"
-     android:textSize="20sp" />
-
-     <Button
-         android:id="@+id/addBtn"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="10dp"
-         android:onClick="addItems"
-         android:text="Add New Item"
-         android:textSize="20sp" />
-
-     <ListView
-         android:id="@android:id/list"
-         android:layout_width="fill_parent"
-         android:layout_height="match_parent"
-         android:layout_marginTop="10dp"
-         android:background="#D3D3D3"
-         android:drawSelectorOnTop="false" >
-     </ListView>
-</LinearLayout>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Registration" >
     
+<LinearLayout
+        android:id="@+id/login_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+             />
+
+        <TextView
+            android:id="@+id/login_status_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Aktuelle Spiele werden geladen..."
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+<ScrollView
+    android:id="@+id/login_form"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D3D3D3" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#D3D3D3"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/buttonHighscore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Highscore"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/buttonNeuesSpielErstellen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Neues Spiel erstellen"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Logout"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="399dp" >
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="#D3D3D3"
+                android:drawSelectorOnTop="false" >
+            </ListView>
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>
+
+</merge>

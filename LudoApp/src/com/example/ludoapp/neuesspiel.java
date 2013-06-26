@@ -3,10 +3,15 @@ package com.example.ludoapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.example.ludoWebservice.Game;
+import com.example.ludoWebservice.ILudoWebservice;
 import com.example.ludoWebservice.LudoWebserviceStub;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +24,8 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -37,24 +44,23 @@ public class neuesspiel extends ListActivity {
 	private TextView Spielername2;
 	private TextView Spielername3;
 	private TextView textAnfragen;
-	private Button los;
+	private Button spielStarten;
 	private Button spielVeroeffentlichen;
 	private Integer number;
 	private SparseBooleanArray checkedPositions;
-	
-	
-	   void showToast(CharSequence msg) {
-	        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-	    }
-	   
+	public String username;
+	public String sessionid;
+	public int gameid;
+	  
 	   protected int splashTime = 3000;
        TextView tv1;
-       String[] name = {"A","N","D","R","O","I","D"};
        int timer =0;
        int key=0;
        HashMap<String,String> h = new HashMap<String,String>();
        private static final String TAG = neuesspiel.class.getName();
-
+   	   createGame createGame;
+   	   ILudoWebservice service; 
+   	   sendAcceptAnfrage sendAcceptAnfrage;
        
      //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
        ArrayList<String> listItems=new ArrayList<String>();
@@ -69,7 +75,7 @@ public class neuesspiel extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.neuesspiel);
-        tv1 = (TextView) findViewById(R.id.textView1);
+        tv1 = (TextView) findViewById(R.id.textViewHighscore);
         textAnfragen = (TextView) findViewById(R.id.textAnfragen);
         ListView lstView = getListView();
         lstView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -77,19 +83,29 @@ public class neuesspiel extends ListActivity {
         adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice,listItems);
         setListAdapter(adapter);
         checkedPositions = lstView.getCheckedItemPositions ();
-        /*
-        los.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				Intent nextScreen = new Intent(getApplicationContext(), spiel.class);	
-				nextScreen.putExtra("Spieler1", Spieler1.getText().toString());
-                nextScreen.putExtra("Spieler2", Spieler2.getText().toString());
-                nextScreen.putExtra("Spieler3", Spieler3.getText().toString());
-                nextScreen.putExtra("Spieler4", Spieler4.getText().toString());
-                nextScreen.putExtra("number", number.toString());
-            	startActivity(nextScreen);
-			}
-		});*/
+      createGame = new createGame();
+      sendAcceptAnfrage = new sendAcceptAnfrage();
+      
+		 Intent i = getIntent();
+		    // Receiving the Data
+		  username = i.getStringExtra("username");
+		  sessionid = i.getStringExtra("sessionid");
+      
+		  
+        spielStarten = (Button) findViewById(R.id.buttonSpielBeitreten);
+        spielStarten.setOnClickListener(new OnClickListener(){
+        	@Override
+        	public void onClick(View v) {
+        		//createGame.execute();
+        		Intent nextScreen = new Intent(getApplicationContext(), spiel.class);	
+        		/*nextScreen.putExtra("Spieler1", Spieler1.getText().toString());
+              	nextScreen.putExtra("Spieler2", Spieler2.getText().toString());
+              	nextScreen.putExtra("Spieler3", Spieler3.getText().toString());
+              	nextScreen.putExtra("Spieler4", Spieler4.getText().toString());
+              	nextScreen.putExtra("number", number.toString());*/
+        		startActivity(nextScreen);
+        	}
+		});
         
         
         
@@ -137,14 +153,20 @@ public class neuesspiel extends ListActivity {
 
         
         spielVeroeffentlichen = (Button) findViewById(R.id.buttonSpielVeroeffentlichen);
-    	
-        spielVeroeffentlichen.setOnClickListener(new OnClickListener(){
-    			@Override
-    			public void onClick(View v) {
+    	spielVeroeffentlichen.setOnClickListener(new OnClickListener(){
+    		@Override
+    		public void onClick(View v) {
+    				createGame.execute();
     				th.start();	
-    			}
-    		});	
-        }
+    		}
+    	});	
+      }
+    
+    
+    void showToast(CharSequence msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+   
     
     
     @Override
@@ -154,8 +176,9 @@ public class neuesspiel extends ListActivity {
       // Get the item that was clicked
       Object o = this.getListAdapter().getItem(position);
       String keyword = o.toString();
-      //Toast.makeText(this, "Es wurde eine Anfrage an Spielleiter Dummy gesendet " + keyword, Toast.LENGTH_SHORT).show();
-      //Toast.makeText(this, "Dummyname   Punkte: 1000 " + position+ id , Toast.LENGTH_SHORT).show();
+
+     // sendAcceptAnfrage.execute(username, gameid);
+      
       key=0;
       int size = checkedPositions.size ();
       for (int i=0 ; i<size ; i++) {
@@ -184,6 +207,68 @@ public class neuesspiel extends ListActivity {
   public void addItems(View v) {
      
   }
+  
+  
+  class sendAcceptAnfrage extends AsyncTask<String, Integer, Integer>{
+		
+	@Override
+	protected void onPostExecute(Integer result) {
+					
+		
+			
+		}
+	
+
+	@Override
+	protected Integer doInBackground(String... params) {
+		int Game  = service.createGame(Integer.valueOf(sessionid),username);//(Integer.valueOf(sessionid));
+		
+		return Game;
+		}
+		
+}
+  
+  class createGame extends AsyncTask<String, Integer, Integer>{
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+						
+			
+				
+			}
+		
+
+		@Override
+		protected Integer doInBackground(String... params) {
+			int game = service.createGame(Integer.valueOf(sessionid),username);//createGame(Integer.valueOf(sessionid));
+			
+			return game;
+			}
+			
+	}
+  
+  
+ 
+  
+  @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.itemPrefs2 :
+				//getGameList.execute();
+				//gameid herausfinden 
+							
+				break;
+		}
+			
+		return true;
+	}
+   
+	@Override
+   public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu2, menu);
+		//You must return true for the menu to be displayed; if you return false it will not be shown.
+		return true;
+	}
 
     
      

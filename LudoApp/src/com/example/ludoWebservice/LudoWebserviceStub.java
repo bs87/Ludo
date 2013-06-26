@@ -63,6 +63,18 @@ public class LudoWebserviceStub implements ILudoWebservice {
 		return result;	
     }*/
     /**
+   	 * Diese Methode akzeptiert einen Anfrage 
+   	 * @params gameID
+   	 */  
+       @Override
+       public void acceptInvite (int gameID){
+    	   String METHOD_NAME = "acceptInvite";
+    	   Object response = executeSoapAction(METHOD_NAME, gameID, currentUser.getUserName());
+    	   Log.d(TAG, response.toString());   	   
+       }
+    
+    
+    /**
 	 * Diese Methode erhält eine Liste mit den eingeloggten 
 	 * @return Hashset of UserNames
 	 */  
@@ -88,7 +100,7 @@ public class LudoWebserviceStub implements ILudoWebservice {
  	 */
     @Override
     public Set<User> getHighScore(){
-    	String METHOD_NAME = "getUsers";
+    	String METHOD_NAME = "getHighScore";
     	Set<User> result = new HashSet<User>();
     	SoapObject response = (SoapObject) executeSoapAction(METHOD_NAME);
     	Log.d(TAG, response.toString());
@@ -96,11 +108,35 @@ public class LudoWebserviceStub implements ILudoWebservice {
 			SoapObject soapUserEntry = (SoapObject) response.getProperty(i);
 			SoapPrimitive soapUserName = (SoapPrimitive) soapUserEntry.getProperty("userName");
 			int rank = Integer.parseInt(((SoapObject) response).getPrimitivePropertySafelyAsString("userRank"));
-			User nutzer = new User(soapUserName.toString(),rank);
+			int punkte = Integer.parseInt(((SoapObject) response).getPrimitivePropertySafelyAsString("punkte"));
+			User nutzer = new User(soapUserName.toString(),rank, punkte);
 			result.add(nutzer);
 		}
 		return result;
     }
+    
+    
+    
+	/**
+	 * Diese Methode führt die registrierung sowie anschließendem Login durch. 
+	 * @param username, password
+	 * @return User
+	 */ 
+	@Override
+	public User registerWeb(String username, String password) {
+		String METHOD_NAME = "register";
+		this.sessionId = (Integer) null;
+		//System.out.println(username+"webservicestubusername-------------------------------"+password);
+
+		Object response = executeSoapAction(METHOD_NAME, username, password);
+		
+		Log.d(TAG, response.toString());
+		this.sessionId = Integer.parseInt(((SoapObject) response).getPrimitivePropertySafelyAsString("sessionId"));
+		
+		User result = new User(username, password, this.sessionId);
+		currentUser = result;
+		return result;
+	}
     
     
     
@@ -109,10 +145,10 @@ public class LudoWebserviceStub implements ILudoWebservice {
 	 * @return int
 	 */  
     @Override
-    public int wuerfeln(){
+    public int wuerfeln(int gameID){
     	int result = (Integer) null;
     	String METHOD_NAME = "doWuerfeln";
-    	SoapObject response = (SoapObject) executeSoapAction(METHOD_NAME);
+    	SoapObject response = (SoapObject) executeSoapAction(METHOD_NAME, sessionId, gameID);
     	Log.d(TAG, response.toString());
     	result = Integer.parseInt(((SoapObject) response).getPrimitivePropertySafelyAsString("zahl"));
     	return result;	
@@ -136,9 +172,9 @@ public class LudoWebserviceStub implements ILudoWebservice {
 	 * @param figur, feld
 	 */  
     @Override
-    public void doSpielzug(int figur, int feld, int gameID){
+    public void doSpielzug(int figur,int feld, int gameID){
     	String METHOD_NAME = "doSpielzug";
-    	Object response = executeSoapAction(METHOD_NAME, figur, feld, gameID, sessionId);
+    	Object response = executeSoapAction(METHOD_NAME,figur ,feld, gameID, sessionId);
     	Log.d(TAG, response.toString());
     }
     
@@ -151,17 +187,61 @@ public class LudoWebserviceStub implements ILudoWebservice {
     @Override
     public GameMove getSpiel(int gameID){
     	String METHOD_NAME = "getSpiel";
-    	Object response = executeSoapAction(METHOD_NAME, gameID);
+    	SoapObject response = (SoapObject) executeSoapAction(METHOD_NAME, gameID);
     	Log.d(TAG, response.toString());
-    	/*
-    	 * 
-    	 * 
-    	 * To do
-    	 * 
-    	 * 
-    	 */
+    	SoapObject feld = (SoapObject) response.getProperty("felder");
+    	SoapObject spieler = (SoapObject) response.getProperty("spieler");	
     	
-    	return currentGameMove;
+    	GameMove spielzug;
+    	int[] hilfsfeld = new int[40];
+    	int[][] hilfsspieler = new int[4][9];
+    	//Nimmt das Spielfeld-Array entgegen
+    	for (int i=1; i<feld.getPropertyCount(); i++) {
+			SoapObject soapFeldEntry = (SoapObject) response.getProperty(i);
+			hilfsfeld[i] = Integer.parseInt(((SoapObject) soapFeldEntry).getPrimitivePropertySafelyAsString("felder"));	
+    	}
+    	//Nimmt das Spieler- Array entgegen
+    	for (int i=1; i<spieler.getPropertyCount(); i++) {
+			SoapObject soapSpielerEntry = (SoapObject) response.getProperty(i);
+			for (int j=1; j<soapSpielerEntry.getPropertyCount(); j++) {
+				hilfsspieler[i][j] = Integer.parseInt(((SoapObject) soapSpielerEntry).getPrimitivePropertySafelyAsString("spieler"));
+			}
+    	}
+    	spielzug = new GameMove(gameID,hilfsfeld,hilfsspieler);  	
+    	//Fügt die Spieler hinzu
+		for (int i=1; i<response.getPropertyCount(); i++) {
+			SoapObject soapPlayerNameEntry = (SoapObject) ((SoapObject) response).getProperty(i);
+			SoapPrimitive soapPlayerName = (SoapPrimitive) soapPlayerNameEntry.getProperty("spielerNamen");
+			spielzug.addPlayer(soapPlayerName.toString());
+		}
+		//Fügt das kicked-Flag hinzu
+		SoapPrimitive soapKicked = (SoapPrimitive) response.getProperty("kicked");
+		int kicked = Integer.valueOf(soapKicked.toString());
+		//spielzug.addKickedFlag(kicked);
+		
+		//Fügt das started-Flag hinzu
+		SoapPrimitive soapStarted = (SoapPrimitive) response.getProperty("started");
+		int started = Integer.valueOf(soapStarted.toString());
+		//spielzug.addStartedFlag(started);
+		
+		//Fügt das Spielleiter-Ingame-Flag hinzu
+		SoapPrimitive soapLeiterInGame = (SoapPrimitive) response.getProperty("leiterInGame");
+		int inGame = Integer.valueOf(soapLeiterInGame.toString());
+		//spielzug.addLeiterInGameFlag(inGame);
+		
+		//Fügt das die SpielerAnzahl hinzu
+		SoapPrimitive soapNumberOfPlayer = (SoapPrimitive) response.getProperty("anzahl");
+		int numberOfPlayer = Integer.valueOf(soapNumberOfPlayer.toString());
+		spielzug.setNumberOfPlayer(numberOfPlayer);
+		
+		//Fügt das Warnung-Flag hinzu
+		SoapPrimitive soapWarnung = (SoapPrimitive) response.getProperty("warnung");
+		int warnung = Integer.valueOf(soapWarnung.toString());
+		spielzug.setWarning(warnung);
+		
+		
+    	currentGameMove = spielzug;
+    	return spielzug;
     }
     
     
@@ -193,10 +273,12 @@ public class LudoWebserviceStub implements ILudoWebservice {
 	 * @return Game
 	 */
 	@Override
-	public Game createGame() {
-		Game result = null;
+	public int createGame(int sessionId, String spielname) {
+		
 		String METHOD_NAME = "createGame";
-		SoapObject response = (SoapObject) executeSoapAction(METHOD_NAME, sessionId);
+		Log.d(TAG, sessionId+"test123");
+		int result = Integer.valueOf(executeSoapAction(METHOD_NAME, sessionId,spielname).toString());
+		/*SoapObject response = (SoapObject) executeSoapAction(METHOD_NAME, sessionId,spielname);
 		Log.d(TAG, response.toString());
 		//SoapObject soapGameEntry = (SoapObject) response.getProperty(i);
 		SoapObject soapGameEntry = (SoapObject) response;
@@ -205,7 +287,8 @@ public class LudoWebserviceStub implements ILudoWebservice {
 		int gameID = Integer.valueOf(soapGame.toString());
 		String spielLeiter = currentUser.getUserName();
 		result = new Game(gameID, spielLeiter);
-		currentGame = new Game(gameID,spielLeiter);
+		
+		currentGame = new Game(gameID,spielLeiter);*/
 		return result;
 	}
 
@@ -216,22 +299,12 @@ public class LudoWebserviceStub implements ILudoWebservice {
 	 * @return Game
 	 */
 	@Override
-	public Game joinGame (int gameID) {
-		String METHOD_NAME = "joinGame";
+	public GameMove joinGame (int gameID) {
+		String METHOD_NAME = "joinLobby";
 		SoapObject response = (SoapObject) executeSoapAction(METHOD_NAME, gameID, sessionId);
 		Log.d(TAG, response.toString());
-		
-		//SoapPrimitive soapGame = (SoapPrimitive) response.getProperty("id");
-		//Create a local Game
-		Game game = new Game(gameID);
-		//Adds each player
-		for (int i=1; i<response.getPropertyCount(); i++) {
-			SoapObject soapGameEntry = (SoapObject) ((SoapObject) response).getProperty(i);
-			SoapPrimitive soapPlayerName = (SoapPrimitive) soapGameEntry.getProperty("playerName");
-			game.addPlayer(soapPlayerName.toString());
-		}
-		//game.addPlayer(currentUser.getUserName());
-		currentGame = game;
+		GameMove game = new GameMove(gameID);
+		game = getSpiel(gameID);
 		return game;
 	}
 	
@@ -253,11 +326,14 @@ public class LudoWebserviceStub implements ILudoWebservice {
 	 * Diese Methode führt einen logout auf dem Server durch
 	 */
 	@Override
-	public void logout(){
+	public boolean logout(int sessionId){
 		Log.d(TAG,"logout called.");
 		String METHOD_NAME = "logout";
-		Object response = executeSoapAction(METHOD_NAME, sessionId);
-		Log.d(TAG, response.toString());
+		if ( executeSoapAction(METHOD_NAME, sessionId).toString().equals("true")){
+		return true;
+	}else{
+		return false;	
+	}
 	}
 	
 	
@@ -266,7 +342,14 @@ public class LudoWebserviceStub implements ILudoWebservice {
 	 * @return GameList
 	 */
 	@Override
-	public Set<Game> getGameList() {
+	public Set<Game> getGameList(int sessionId) {
+		
+		Log.d(TAG, "CreateGame1");
+		createGame(sessionId,"testspiel");
+		Log.d(TAG, "CreateGame1");
+		//createGame();
+		Log.d(TAG, "CreateGame2");
+
 		Log.d(TAG,"getGameList called.");		
 		Set<Game> result = new HashSet<Game>();
 		String METHOD_NAME = "getGameList";

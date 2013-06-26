@@ -20,6 +20,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -32,10 +34,10 @@ public class spiel extends Activity implements OnClickListener {
 	int wuerfelcounter = 0;
 String ButtonText;
 	int farbe = 0xFFf5f5f5;
-	Integer anzahl;
+	//Integer anzahl;
    	int min = 1;
 	int max = 6;
-	Button Spieler1,Spieler2,Spieler3,Spieler4;
+	//Button Spieler1,Spieler2,Spieler3,Spieler4;
 	
 	 void showToast(CharSequence msg) {
 	        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -132,13 +134,13 @@ String ButtonText;
 			area[54] = (Button) findViewById(R.id.buttonTargetB4);
 	        
 	        
-    Intent i = getIntent();
+  // Intent i = getIntent();
     // Receiving the Data
-     anzahl = Integer.parseInt(i.getStringExtra("number").toString());
-    String Spieler1name = i.getStringExtra("Spieler1");
-    String Spieler2name = i.getStringExtra("Spieler2");
-    String Spieler3name = i.getStringExtra("Spieler3");
-    String Spieler4name = i.getStringExtra("Spieler4");
+   //  anzahl = Integer.parseInt(i.getStringExtra("number").toString());
+  //  String Spieler1name = i.getStringExtra("Spieler1");
+  //  String Spieler2name = i.getStringExtra("Spieler2");
+  //  String Spieler3name = i.getStringExtra("Spieler3");
+  //  String Spieler4name = i.getStringExtra("Spieler4");
     
     
 	 Button Spieler1 = (Button) findViewById(R.id.Spieler1);
@@ -247,24 +249,24 @@ String ButtonText;
  	Spieler3.getBackground().setColorFilter(0xFF008000, PorterDuff.Mode.MULTIPLY);
  	Spieler4.getBackground().setColorFilter(0xFF0000FF, PorterDuff.Mode.MULTIPLY);
  	
-    Spieler1.setText(Spieler1name);
-    Spieler2.setText(Spieler2name);
-    Spieler3.setText(Spieler3name);
-    Spieler4.setText(Spieler4name);
-    Spieler1.setText(Spieler1name);
+    //Spieler1.setText(Spieler1name);
+   // Spieler2.setText(Spieler2name);
+   //Spieler3.setText(Spieler3name);
+   // Spieler4.setText(Spieler4name);
+   // Spieler1.setText(Spieler1name);
     Wuerfel.setText(R.string.Wuerfel);
 
     
     
     
-if (anzahl==2){
+/*if (anzahl==2){
 	Spieler3.setVisibility(View.INVISIBLE);
 	Spieler4.setVisibility(View.INVISIBLE);
 }
 
 if (anzahl==3){
 	Spieler4.setVisibility(View.INVISIBLE);
-}
+}*/
 
 
 	
@@ -291,9 +293,9 @@ if (anzahl==3){
 			}else{
 			spieler++;
 			}
-			  if (spieler > anzahl){
+			  /*if (spieler > anzahl){
 				   spieler=0;
-		   }
+		   }*/
             //showToast("Spieler: " + spieler + " muss eine Figure bewegen");
             if (spieler == 1){
                	Spieler1.setEnabled(true);
@@ -1211,7 +1213,26 @@ public void moveTarget(int field,int color){
 	}
 	
 
-
+@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.itemPrefs3 :
+				//todo
+				//leavegame.execute();
+				//gameid herausfinden und spielerid schicken 
+							
+				break;
+		}
+			
+		return true;
+	}
+ 
+	@Override
+ public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu3, menu);
+		//You must return true for the menu to be displayed; if you return false it will not be shown.
+		return true;
+	}
 
 	@Override
 	public void onClick(View v) {

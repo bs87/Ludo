@@ -10,8 +10,12 @@ import com.example.ludoWebservice.User;
 
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,7 +45,10 @@ ILudoWebservice service;
 loginTask loginTask;
 String username;
 String passwort;
-sayhellotask hellotask;
+private View mLoginFormView;
+private View mLoginStatusView;
+private TextView mLoginStatusMessageView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,7 +57,9 @@ sayhellotask hellotask;
 		Passwort = (EditText) findViewById(R.id.editTextPasswort1);
 		zurueck = (Button) findViewById(R.id.buttonZurueck2);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
+        mLoginFormView = findViewById(R.id.login_form);
+		mLoginStatusView = findViewById(R.id.login_status);
+		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
 
 		service = new LudoWebserviceStub();
 		loginTask = new loginTask();
@@ -80,11 +89,8 @@ sayhellotask hellotask;
 					 passwort = Passwort.getText().toString();
 					
 					if (Username.length() != 0  & Passwort.length() != 0){
-						//showProgress(true);
+						showProgress(true);
 						loginTask.execute();
-						
-						
-						//hellotask.execute("");
 						}else{
 					    showToast("Username und Passwort müssen ausgefüllt sein");
 							
@@ -109,20 +115,20 @@ sayhellotask hellotask;
 		@Override
 		protected void onPostExecute(String result) {
 			
-			TextView tv = (TextView)findViewById(R.id.textView2);
 			
 			int s = result.lastIndexOf("/");
 			String username2 = result.substring  ( 0, s );
-			String id = result.substring(s+1,result.length());
-			tv.setText("Username "+username2+" ID: "+id);
-			
-			if(id.equals("0")){
+			String sessionid = result.substring(s+1,result.length());
+
+			if(sessionid.equals("0")){
 				showToast("Username oder Passwort falsch");
 			}else{
 				Intent nextScreen = new Intent(getApplicationContext(), Uebersicht.class);
 				nextScreen.putExtra("username", username2);
-				nextScreen.putExtra("id", id);
+				nextScreen.putExtra("sessionid", sessionid);
 				startActivity(nextScreen);
+				showProgress(false);
+
 			}
 		}
 
@@ -156,7 +162,7 @@ sayhellotask hellotask;
 	}
 	
 	
-	class sayhellotask extends AsyncTask<String, Void, String>{
+	/*class sayhellotask extends AsyncTask<String, Void, String>{
 
 		@Override
 		protected void onPostExecute(String result) {
@@ -172,9 +178,47 @@ sayhellotask hellotask;
 			
 			return result.toString();
 			}
-			
-	}
+		
 	
+	}*/
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+	private void showProgress(final boolean show) {
+		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+		// for very easy animations. If available, use these APIs to fade-in
+		// the progress spinner.
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			int shortAnimTime = getResources().getInteger(
+					android.R.integer.config_shortAnimTime);
+
+			mLoginStatusView.setVisibility(View.VISIBLE);
+			mLoginStatusView.animate().setDuration(shortAnimTime)
+					.alpha(show ? 1 : 0)
+					.setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mLoginStatusView.setVisibility(show ? View.VISIBLE
+									: View.GONE);
+						}
+					});
+
+			mLoginFormView.setVisibility(View.VISIBLE);
+			mLoginFormView.animate().setDuration(shortAnimTime)
+					.alpha(show ? 0 : 1)
+					.setListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							mLoginFormView.setVisibility(show ? View.GONE
+									: View.VISIBLE);
+						}
+					});
+		} else {
+			// The ViewPropertyAnimator APIs are not available, so simply show
+			// and hide the relevant UI components.
+			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
+			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+		}
+	}
 
 	
 

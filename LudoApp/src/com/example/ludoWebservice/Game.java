@@ -98,6 +98,21 @@ public class Game implements Serializable {
 	public void setGameID(Integer gameID) {
 		this.gameID = gameID;
 	}
+	public String getSpielLeiter (){
+		return spieler[0];
+	}
+	
+	public String getSpieler1(){
+		return spieler[1];
+	}
+	
+	public String getSpieler2(){
+		return spieler[2];
+	}
+	
+	public String getSpieler3(){
+		return spieler[3];
+	}
 
 	public void setNumberOfPlayer(Integer numberOfPlayer) {
 		this.numberOfPlayer = numberOfPlayer;
